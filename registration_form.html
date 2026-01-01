@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>form</title>
+    <style>
+        body{
+            background-color: rgba(56, 56, 56, 0.623);
+        }
+        form{
+
+            width: 350px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            margin: auto;
+            margin-top: 20px;
+            background-color: rgba(231, 233, 233, 0.897);
+            border-radius: 8px;
+            font-size: 20px;
+            box-shadow: 4px 4px 8px rgba(34, 33, 33, 0.808);
+        }
+        form h2{
+            padding-top: 10px;
+            margin-left: 60px;
+        }
+        form label{
+            display: flex;
+            flex-wrap: wrap;
+            padding: 8px;
+            margin-left: 30px;
+            
+        }
+        form input{
+            width: 85%;
+            height: 35px;
+            border-radius: 6px;
+            margin-left: 30px;
+            font-size: 18px;
+            border: none;
+        }
+        #alert{
+             margin-left: 45px;
+             color: red;
+             font-size: 18px;
+        }
+        .checker{
+            font-size: 15px; 
+             color: grey;
+        }
+
+        form button{
+            width: 90%;
+            height: 50px;
+            font-size: 30px;
+            font-weight: Bold;
+            margin-left: 20px;
+            border-radius: 6px;
+            background-color: rgba(28, 59, 233, 0.925);
+            border: none;
+            margin-bottom: 20px;
+        }
+        form button:hover{
+        
+            background-color: rgb(20, 51, 255);
+        }
+        
+
+
+    </style>
+</head>
+<body>
+    <form method="post" action="#" onsubmit="return validate()">
+        <h2>Registration form</h2>
+        <label for="username">Username*</label>
+        <input type="text" name="" id="username" placeholder="username" onkeyup="white(this.value)" required>
+
+        <label for="password">Password*</label>
+        <input id="password" type="password" placeholder="password" onkeyup="passwordcheck(this.value)" required>
+
+        <label for="confirm">Confirm password*</label>
+        <input id="confirm" type="password" placeholder="confirm password" onkeyup="check(this)" required>
+         <error id="alert"></error>
+
+
+         <p class="checker">
+            <label class="password-check">8 characters</label>
+            <label class="password-check">1 lower case character</label>
+            <label class="password-check">1 upper case character</label>
+            <label class="password-check">1 numerical character</label>
+            <label class="password-check">1 special character(like a !@#$%^&?\/*)</label>
+         </p>
+
+        <button id="submit">Submit</button>
+    </form>
+
+
+    <script>
+        let pass = document.getElementById('password');
+        let flag = 1;  //1 -> no error | 0 -> yes error
+
+           function check(elem){
+              if(elem.value.length>0){
+                  if(elem.value != pass.value){
+                      document.getElementById('alert').innerHTML ="confirm password does not match ";
+                      flag = 0;
+                  }
+                  else{
+                      document.getElementById('alert').innerHTML = "";
+                      flag=1;
+                  }
+              }else{
+                  document.getElementById('alert').innerHTML = "Please enter confirm password";
+                  flag=0;
+              }
+          }
+
+       function validate(){
+        if (flag==1){
+            return true;
+        }
+        else{
+            return false;
+        }
+       }
+
+    // Space  check
+    let patten = /\s/g;
+    let alert = document.getElementById('alert');
+
+    function white(data){
+        let isSpace = patten.test(data);
+        if(isSpace){
+            alert.innerText="Space is not allow";
+            flag=0;
+        }else{
+            alert.innerText="";
+            flag=1;
+        }
+    }
+
+    //  check 
+   function passwordcheck(data){
+        let passClass = document.getElementsByClassName('password-check');
+
+        const eightChar = new RegExp('(?=.{8,})');
+        const loweCase = new RegExp('(?=.*[a-z])');
+        const upperCase = new RegExp('(?=.*[A-Z])');
+        const number = new RegExp('(?=.*[0-9])');
+        const specialChar = new RegExp('(?=.*[!@#$%^&?\/*])');
+        
+
+        if(eightChar.test(data)){
+            passClass[0].style.color = "green";
+            flag=1;
+        }else{
+            passClass[0].style.color = "grey";
+            flag=0;
+        }
+
+        if(loweCase.test(data)){
+            passClass[1].style.color="green";
+            flag=1;
+        }else{
+            passClass[1].style.color="grey";
+            flag=0;
+        }
+
+        if(upperCase.test(data)){
+            passClass[2].style.color="green";
+             flag=1;
+        }else{
+            passClass[2].style.color="grey";
+            flag=0;
+        }
+
+        if(number.test(data)){
+            passClass[3].style.color="green";
+             flag=1;
+        }else{
+            passClass[3].style.color="grey";
+            flag=0;
+        }
+
+        if(specialChar.test(data)){
+            passClass[4].style.color="green";
+             flag=1;
+        }else{
+            passClass[4].style.color="grey";
+             flag=0;
+        }
+   
+   }
+
+
+    </script>
+</body>
+</html>
